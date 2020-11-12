@@ -10,7 +10,9 @@
 let user = {
 	username: "bencallis",
 	email: "bencallis1@gmail.com",
-    // Code here
+  getUserName: function (){
+    return this.username
+  }
 };
 
 
@@ -31,7 +33,7 @@ let user1 = {
 };
 
 const getUsername = function () {
-    // Code here
+    return this.username
 };
 
 const username = getUsername.call(user1);
@@ -57,7 +59,7 @@ function getOtherUsername() {
 };
 
 // Code here
-
+const otherUsername= getOtherUsername.call(user2)
 
 
 ////////// PROBLEM 4 //////////
@@ -72,6 +74,8 @@ function getOtherUsername() {
 */
 
 // Code here
+const username1=getOtherUsername.call(user1,username)
+const username2=getOtherUsername.call(user2,username)
 
 
 
@@ -95,7 +99,7 @@ function add(a, b, c) {
 
 // Code here
 
-
+const result = add.apply(obj,nums)
 
 ////////// PROBLEM 6 //////////
 
@@ -116,7 +120,7 @@ const getName = function () {
 };
 
 // Code here
-
+const name = getName.bind(favRapper)
 
 
 ////////// PROBLEM 7 //////////
@@ -128,8 +132,10 @@ const getName = function () {
   Make sure the property names match the parameter names
 */
 
-function Car (color, make, year){
-    // Code here
+function Car (color, make, year){ 
+    this.color=color
+    this.make=make
+    this.year=year
 }
 
 
@@ -148,7 +154,9 @@ function CarMaker (make, model, year) {
 	this.model = model;
 	this.year = year;
     this.move = 0;
-    
+    this.moveCar=function(){
+       this.move+=10
+    }
     // Code here
 };
 
@@ -167,7 +175,16 @@ function CarMaker (make, model, year) {
 
 // Code here
 
-
+function Player(name,age,team,pointsScored){
+  this.name=name
+  this.age=age
+  this.team=team
+  this.pointsScored=pointsScored
+  this.addPoints=function(p){
+      this.pointsScored+=p
+    return this.pointsScored
+  }
+}
 
 ////////// PROBLEM 10 //////////
 
@@ -183,14 +200,14 @@ function Restaurant(name, type, stars) {
 	this.type = type;
     this.stars = stars;
     
-    this.addStars = function (num) {
-        this.stars += num;
-        return this.stars;
-    };
+   
 }
 
 // Code here
-
+Restaurant.prototype.addStars = function(num) {
+  this.stars += num;
+  return this.stars;
+};
 
 
 ////////// PROBLEM 11 //////////
@@ -216,7 +233,14 @@ function Person(name, age, hometown, email, friends) {
 
 // Code here
 
+Person.prototype.addFriend = function (newF){
+  this.friends.push(newF)
+  return this.friends
+}
 
+Person.prototype.removeFriend = function (badF){
+  return this.friends.splice(this.friends.indexOf(badF),1)   
+}
 
 ////////// PROBLEM 12 //////////
 
@@ -235,6 +259,20 @@ function Person(name, age, hometown, email, friends) {
 */
 
 // Code here
+function User (name,age,email,savedPosts){
+  this.name=name
+  this.age=age
+  this.email=email
+  this.savedPosts=savedPosts
+}
+
+User.prototype.addSavedPost = function (id,title,rating){
+  this.savedPosts.push({
+    id:id,
+    title:title,
+    rating:rating,
+  })
+}
 
 
 
@@ -249,7 +287,12 @@ function Person(name, age, hometown, email, friends) {
 
 // Code here
 
-
+User.prototype.removeSavedPost=function(id){     
+  this.savedPosts= this.savedPosts.filter(x=>{
+    return x.id!==id
+  })
+  return this.savedPosts
+}
 
 ////////// PROBLEM 14 //////////
 
@@ -261,3 +304,15 @@ function Person(name, age, hometown, email, friends) {
 */
 
 // Code here
+
+User.prototype.changePostRating=function(id,rating){
+  this.savedPosts= this.savedPosts.map(obj=>{    
+      if(obj.id===id){
+        obj.rating=rating       
+      }      
+  return obj
+        
+  }) 
+  
+  return this.savedPosts
+}
